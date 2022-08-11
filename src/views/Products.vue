@@ -1,12 +1,15 @@
 <template>
 <h1>Products</h1>
 <div class="container">
-
 <div v-for="product in products" :key="product.id" class="product">
+<router-link class="products" :to="{ name: 'ProductDetails', params: { id: Product.id } }">
+    
 <img class="image" v-bind:src="product.image"/>
 <p>{{ product.name}}</p>
 <p>{{ product.price}}</p>
 <p>{{ product.descriptions}}</p>
+
+</router-link>
 </div>
 </div>
 
