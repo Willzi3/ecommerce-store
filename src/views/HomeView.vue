@@ -1,51 +1,40 @@
 <template>
  <div class="container">
-   <form onsubmit="myFunction()">
-    <h1>LOGIN</h1>
-    <input class="form-input" type="text" name="email" id="email" placeholder="Email:" />
-    <input class="form-input" type="text" name="password" id="password" placeholder="Password:" />
-    <button class="form-input" type="submit">Login</button>
-    <div class="form-extra">
-      <a href="#"><p>Register</p></a>
-      <a href="#"><p>Forgot password</p></a>
-    </div>
-  </form>
+   <form @submit.prevent="login">
+        <label>Email</label>
+        <input type="text" v-model="email" placeholder="email"/>
+        <label>Password</label>
+        <input type="text" v-model="password" placeholder="password"/>
+        <button type="submit">Login</button>
+        <!-- <a href="register.html"><p>Register</p></a>
+        <a href="forgotPass.html"><p>Forgot password</p></a> -->
+    </form>
+    <div v-if="users">
+            Welcome {{ user.full_name }}
+        </div>
  </div>
 </template>
 <script>
-//login functionality
-    
-async function  myFunction() {
-let email = document.getElementById("email").value;
-let password = document.getElementById("password").value;
-
-const res = await fetch("http://localhost:6969/users/login",
-
-{
-headers: {
-  'Content-Type': 'application/json'
-},
-method: "POST",
-body: JSON.stringify({email: email,
-     password: password})
-
-})
-.then((res) => res.json()).then((data) => {
-console.log(data.token)
-
-if(data.token === null) {
-            alert("Unssuccesfull");
-
-
-}
-else if(data.token) {
-            alert("successfully loggin")
-        document.getElementById("form").style.display = "none";
-
-}
-});
-}
+export default{
+  computed: {
+    users() {
+      return this.$store.state.user
+    }
+  },
+  data() {
+    return{
+      email: "",
+      password: "",
+    }
+  },
+  methods: {
+    login() {
+      this.$store.dispatch("login", { email: this.email, password: this.password })
+    },
+  },
+};
 </script>
+
 <style scoped>
 .container{
   height: 70vh;
