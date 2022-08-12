@@ -1,51 +1,47 @@
 <template>
-<h1>Products</h1>
-<div class="container">
-<div v-for="product in products" :key="product.id" class="product">
-<router-link class="products" :to="{ name: 'ProductDetails', params: { id: Product.id } }">
-    
-<img class="image" v-bind:src="product.image"/>
-<p>{{ product.name}}</p>
-<p>{{ product.price}}</p>
-<p>{{ product.descriptions}}</p>
+ <h1>PRODUCTS</h1>
+    <div v-if="products" class="prods">
+   
+  <Card class="card"
+   v-for="product in products" 
+   :key="product.product_id" 
+   :product="product"/>
 
-</router-link>
-</div>
-</div>
-
+  </div>
 </template>
 <script>
+import Card from "../components/Card.vue";
 export default {
- data() {
-    return {
-        products: []
-    }
- },
- mounted() {
-    fetch('http://localhost:6969/products')
-    .then(res => res.json())
-    .then(data => this.products = data)
-    .catch(err => console.log(err.message))
- }
+  computed: {
+    products() {
+      return this.$store.state.products
+    },
+  },
+  components: { Card },
+  mounted() {
+    this.$store.dispatch("getproducts");
+  }
 };
 </script>
 <style scoped>
-.container{
+h1{
+    font-size: 5rem;
+    color: black;
+}
+.prods{
+    padding: 20px;
     display: flex;
     flex-wrap: wrap;
+    margin-inline: 7%;
     gap: 20px;
     justify-content: center;
     align-items: center;
+    font-size: 1.7rem;
+    font-weight: bold;
 }
-.product{
-    border-radius: 10px;
-    box-shadow: 5px 5px 5px 5px lightgrey;
-    width: 300px;
-    height: 300px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.prods a {
+    text-decoration: none;
+    color: black;
 }
 .image{
 

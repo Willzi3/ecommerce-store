@@ -4,8 +4,8 @@ export default createStore({
   state: {
     users: null,
     user: null,
-    Products: null,
-    Product: null,
+    products: null,
+    product: null,
   },
   mutations: {
     setusers: (state, users) => {
@@ -14,10 +14,10 @@ export default createStore({
     setuser: (state, user) => {
       state.user = user
     },
-    setProduct: (state, product) => {
+    setproduct: (state, product) => {
       state.product = product
     },
-    setProducts: (state, products) => {
+    setproducts: (state, products) => {
       state.products = products
     }
   },
@@ -55,12 +55,12 @@ export default createStore({
          .then((json) => context.commit("setusers", json));
         
      },
-     getProduct: async (context, id) => {
-      fetch(" http://localhost:6969/products" +id)
+     getproduct: async (context, id) => {
+      fetch(" http://localhost:6969/products/" +id)
       .then((res) => res.json())
-      .then((product) => context.commit("setproduct", product))
+      .then((product) => context.commit("setproduct", product[0]))
     },
-    getProducts: async (context) => {
+    getproducts: async (context) => {
       fetch(" http://localhost:6969/products")
       .then((res) => res.json())
       .then((products) => context.commit("setproducts",products))
